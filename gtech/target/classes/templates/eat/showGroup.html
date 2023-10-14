@@ -1,0 +1,102 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Choose Restaurant</title>
+
+    <style>
+        table, th, td {
+              border: 1px solid white;
+              border-collapse: collapse;
+              border-radius: 10px;
+            }
+        th, td {
+            background-color: #96D4D4;
+        }
+        th{
+            display: block;
+              font-size: 1.5em;
+              margin-top: 0.83em;
+              margin-bottom: 0.83em;
+              margin-left: 0;
+              margin-right: 0;
+              font-weight: bold;
+        }
+    </style>
+
+</head>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+<script>
+    $(document).ready(function() { printURL(); setInterval(function() {updateoutput();}, 1000); });
+    function updateoutput() {
+               $.post("refreshUsersChoice").done(function (fragment) {
+                   //console.log("simple: "+fragment);
+                   //console.log("full: "+window.location.pathname+" "+window.location.href);
+                   $("#output").replaceWith(fragment);
+               });
+           }
+    function stopSession(){
+    $.get("stop").done(updateoutput());
+    }
+    function printURL(){
+        var loc = window.location.href;
+        var urlPart = loc.substr(0, loc.lastIndexOf('/') + 1)+'lunchGroup';
+        document.getElementById('joinUrl').innerHTML = urlPart;
+    }
+</script>
+
+
+<body>
+
+<div style="justify-content: center;display: flex;">
+    <h2>Your Choice Restaurant: </h2>
+    <form th:action="@{/eat/submitRestaurant}">
+        <input th:name="restaurant" type="text"/>
+        <button type="submit">Submit</button>
+    </form>
+    &nbsp;&nbsp;&nbsp;&nbsp;
+    <form th:action="@{/eat/stop}">
+        <button type="submit">Stop Session</button>
+    </form>
+</div>
+<div id="joinUrl" style="justify-content: center;display: flex;"></div>
+
+
+<div th:fragment="refresh_frag">
+    <div id="output" style="justify-content: center;display: flex;">
+        <div>
+            <h2>Please share and use invite code at above URL: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <p th:text="${inviteCode}"/>
+            </h2>
+            <a href="./lunchGroup">join</a>
+            <h2></h2>
+            <h2>The decided restaurant: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <p th:text="${finalRestaurant}"/></h2>
+        </div>
+        <h3>Users and their choices are not placed side by side</h3>
+        <table>
+            <tr>
+                <th>Users</th>
+            </tr>
+            <tr th:each="count : ${users}">
+                <td th:text="${count}"></td>
+            </tr>
+        </table>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+        <table>
+            <tr>
+                <th>Restaurants</th>
+            </tr>
+            <tr th:each="rest : ${restaurants}">
+                <td th:text="${rest}"></td>
+            </tr>
+        </table>
+    </div>
+</div>
+
+</body>
+</html>
+
+
+

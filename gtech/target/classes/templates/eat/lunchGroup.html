@@ -1,0 +1,47 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Eat Group</title>
+</head>
+<body>
+<div style="justify-content: center;display: flex; border-style: solid;">
+    <br><br>
+    <form method="post"
+          th:action="@{/eat/lunchGroup}"
+          th:object="${formData}">
+        <div>
+            <label for="creator">Creator name</label>
+            <input id="creator" th:field="*{creator}"
+                   type="text">
+            <p th:if="${#fields.hasErrors('creator')}"
+               th:text="${#strings.listJoin(#fields.errors('creator'), ', ')}"></p>
+        </div>
+        <button type="submit">Start Group</button>
+    </form>
+    <br><br>
+</div>
+<br><br><br><br><br><br>
+<div style="justify-content: center;display: flex; border-style: solid;">
+    <br><br>
+    <form method="post"
+          th:action="@{/eat/joinGroup}"
+          th:object="${joinFormData}">
+        <div>
+            <label for="username">User name</label>
+            <input id="username" th:field="*{username}"
+                   type="text">
+            <p th:if="${#fields.hasErrors('username')}"
+               th:text="${#strings.listJoin(#fields.errors('username'), ', ')}"></p>
+            <label for="inviteCode">Invite Code</label>
+            <input id="inviteCode" th:field="*{inviteCode}"
+                   type="text">
+            <p th:if="${#fields.hasErrors('inviteCode')}"
+               th:text="${#strings.listJoin(#fields.errors('inviteCode'), ', ')}"></p>
+        </div>
+        <button type="submit">Join Group</button>
+    </form>
+    <br><br>
+</div>
+
+</body>
+</html>

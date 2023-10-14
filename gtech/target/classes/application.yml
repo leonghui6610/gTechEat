@@ -1,0 +1,31 @@
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/wheretoeat?allowPublicKeyRetrieval=true&useSSL=false&serverTimezone=UTC
+    username: root
+    password: Passwd123
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQLDialect
+    hibernate:
+      ddl-auto: update
+    show-sql: false
+    generate-ddl: true
+    defer-datasource-initialization: true
+    database: MYSQL
+logging:
+  level:
+    org:
+      springframework:
+        security: DEBUG
+
+app:
+  jwtSecret: 1BCDF34FFDCB3C69C382D4B3775EA
+  jwtExpirationInMs: 172800000  ## 2 days
+
+server:
+  port: 5000
+
+security:
+  basic:
+    enabled: false
